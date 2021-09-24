@@ -1,0 +1,46 @@
+<ion-header [translucent]="true"
+            class="ion-no-border">
+    <ion-toolbar>
+
+        <ion-buttons slot="start">
+            <ion-icon slot="icon-only"
+                      name="bonfire"
+                      color="primary">
+            </ion-icon>
+        </ion-buttons>
+
+        <ion-title color="primary">
+            FotosGram
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true"
+             color="light">
+    <!---refresher-->
+    <ion-refresher slot="fixed"
+                   (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <!-- Posts  -->
+    <app-posts *ngIf="!loading"
+               [posts]="posts"></app-posts>
+
+
+    <div *ngIf="loading"
+         class="loading">
+        <ion-spinner></ion-spinner>
+    </div>
+
+
+    <!-- Infinity scroll -->
+
+    <ion-infinite-scroll [disabled]="!enabled"
+                         threshold="100px"
+                         (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content>
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+</ion-content>

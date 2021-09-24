@@ -1,0 +1,65 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Post } from 'src/app/models/post.model';
+import { PostsService } from 'src/app/services/posts.service';
+
+@Component({
+    selector: 'app-tab1',
+    templateUrl: 'tab1.page.html',
+    styleUrls: ['tab1.page.scss'],
+})
+export class Tab1Page implements OnInit {
+    posts: Post[] = [];
+
+    enabled = true;
+
+    loading = false;
+
+    private sub = new Subscription();
+
+    constructor(private post: PostsService, private route: Router) {}
+
+    ngOnInit() {
+        this.loadData();
+
+        this.post.newPost.subscribe((post) => {
+            this.posts.unshift(post);
+        });
+    }
+
+    doRefresh(event) {
+        this.loadData(event, true);
+    }
+
+    loadData(event?, pull: boolean = false) {
+        if (pull) {
+            this.enabled = true;
+            this.posts = [];
+        }
+
+        if (!event) {
+            this.loading = true;
+        }
+
+        this.sub.add(
+            this.post.getPosts(pull).subscribe(
+                (res) => {
+                    this.posts.push(...res.posts);
+                    this.loading = false;
+
+                    if (event) {
+                        event.target.complete();
+
+                        if (res.posts.length === 0) {
+                            this.enabled = false;
+                        }
+                    }
+                },
+                (error) => {
+                    this.loading = false;
+                }
+            )
+        );
+    }
+}
