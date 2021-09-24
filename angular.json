@@ -91,6 +91,7 @@
                             ]
                         },
                         "gh-pages": {
+                            "baseHref": "/ionic-photosgram-app/",
                             "outputPath": "docs",
                             "fileReplacements": [
                                 {
