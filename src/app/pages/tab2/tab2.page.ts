@@ -30,6 +30,7 @@ export class Tab2Page {
     };
 
     loadingGeo = false;
+    postAttempt = false;
 
     constructor(
         private postService: PostsService,
@@ -56,6 +57,8 @@ export class Tab2Page {
     }
 
     async createPost() {
+        this.postAttempt = true;
+
         const created = await this.postService.createPost(this.post);
 
         this.post = {
@@ -65,6 +68,7 @@ export class Tab2Page {
         };
 
         this.tempImages = [];
+        this.postAttempt = false;
         this.route.navigateByUrl('/main/tabs/tab1');
     }
 

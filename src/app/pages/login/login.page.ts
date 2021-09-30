@@ -54,6 +54,9 @@ export class LoginPage implements OnInit {
         slidesPerView: 3.5,
     };
 
+    loginAttempt = false;
+    registerAttempt = false;
+
     private sub = new Subscription();
 
     constructor(
@@ -75,6 +78,9 @@ export class LoginPage implements OnInit {
         }
 
         const { email, password } = this.loginForm.value;
+
+        this.loginAttempt = true;
+
         this.sub.add(
             this.user.login(email, password).subscribe(
                 async (response) => {
@@ -87,11 +93,15 @@ export class LoginPage implements OnInit {
                             'User And Password incorrects'
                         );
                     }
+
+                    this.loginAttempt = false;
                 },
                 async (err) => {
                     await this.ui.informAlert(
                         'User And Password incorrects'
                     );
+
+                    this.loginAttempt = false;
                 }
             )
         );
@@ -105,6 +115,7 @@ export class LoginPage implements OnInit {
         const { email, password, avatar, name } =
             this.registerForm.value;
 
+        this.registerAttempt = true;
         this.sub.add(
             this.user
                 .register({ email, password, avatar, name })
@@ -122,11 +133,13 @@ export class LoginPage implements OnInit {
                                 'User And Password incorrects'
                             );
                         }
+                        this.registerAttempt = false;
                     },
                     async (err) => {
                         await this.ui.informAlert(
                             'User And Password incorrects'
                         );
+                        this.registerAttempt = false;
                     }
                 )
         );

@@ -87,8 +87,14 @@
                 <ion-col class="ion-text-center">
                     <ion-button type="submit"
                                 color="tertiary"
-                                shape="round">
-                        Actualizar
+                                shape="round"
+                                [disabled]="!userForm.valid || updateAttempt">
+
+                        <ion-label *ngIf="!updateAttempt">
+                            Actualizar
+                        </ion-label>
+
+                        <ion-spinner *ngIf="updateAttempt"></ion-spinner>
                     </ion-button>
                 </ion-col>
             </ion-row>

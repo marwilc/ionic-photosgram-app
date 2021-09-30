@@ -9,7 +9,10 @@
                         [disabled]="post.message.length < 1 || loadingGeo"
                         color="primary">
                 Compartir
-                <ion-icon name="checkmark-outline"></ion-icon>
+                <ion-icon name="checkmark-outline"
+                          *ngIf="!postAttempt"></ion-icon>
+                <ion-spinner *ngIf="postAttempt"></ion-spinner>
+
             </ion-button>
         </ion-buttons>
 

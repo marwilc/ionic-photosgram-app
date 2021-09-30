@@ -53,6 +53,7 @@ export class Tab3Page implements OnInit {
     userForm: FormGroup = this.createUserForm();
 
     user: User = {};
+    updateAttempt = false;
 
     constructor(
         private userService: UserService,
@@ -94,6 +95,8 @@ export class Tab3Page implements OnInit {
             return;
         }
 
+        this.updateAttempt = true;
+
         const { email, name, avatar } = this.userForm.value;
         const update = await this.userService.updateUser({
             email,
@@ -102,10 +105,12 @@ export class Tab3Page implements OnInit {
         });
 
         if (update) {
-            this.uiService.presentToast('Updated Register');
+            this.uiService.presentToast('Usuario actualizado');
         } else {
             this.uiService.presentToast('Updated error');
         }
+
+        this.updateAttempt = false;
     }
 
     private createUserForm(): FormGroup {
